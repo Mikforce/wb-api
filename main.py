@@ -16,7 +16,19 @@ logger = logging.getLogger(__name__)
 
 
 
-app = FastAPI()
+# Настройка Swagger UI
+app = FastAPI(
+    title="Wildberries Product Tracker API",
+    description="API для отслеживания товаров на Wildberries",
+    version="1.0.0",
+    contact={
+        "name": "Support",
+        "email": "kakoyto@example.com",
+    },
+    license_info={
+        "name": "MIT",
+    },
+)
 init_db()
 
 scheduler = AsyncIOScheduler()
