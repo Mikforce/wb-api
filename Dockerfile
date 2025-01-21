@@ -1,12 +1,19 @@
-FROM python:3.11-slim-buster
+# Используем официальный образ Python
+FROM python:3.11-slim
 
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
+# Копируем зависимости
 COPY requirements.txt .
 
+# Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Копируем исходный код
 COPY . .
 
-# Запуск FastAPI и бота через скрипт
+
+
+# Команда для запуска приложения
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & python bot.py"]

@@ -47,18 +47,17 @@ pip install -r requirements.txt
 env
 Copy
 TELEGRAM_TOKEN=ваш_токен_бота
-DATABASE_URL=sqlite:///./wb_products.db
+DATABASE_URL=postgresql://mouser:mypassword@db:5432/wb_db
 TELEGRAM_TOKEN: Токен вашего Telegram-бота (получите у BotFather).
 
-DATABASE_URL: Строка подключения к базе данных. По умолчанию используется SQLite.
 
-4. Инициализация базы данных
-Запустите скрипт для создания таблиц в базе данных:
+docker-compose.yml
 
-bash
-Copy
-python init_db.py
+TELEGRAM_TOKEN: Токен вашего Telegram-бота
+
+
 ## Запуск проекта
+
 # Запуск с Docker
 1. Сборка и запуск контейнеров
 Выполните:
@@ -69,24 +68,7 @@ docker-compose up --build
 2. Остановка контейнеров
 bash
 Copy
-docker-compose down
-
-## Запуск в CMD
-1. Запуск API
-API запускается с помощью uvicorn:
-
-bash
-Copy
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-API будет доступен по адресу: http://localhost:8000.
-
-2. Запуск бота
-Запустите бота:
-
-bash
-Copy
-python bot.py
-Использование API
+docker-compose down -v
 
 
 1. Сбор данных по артикулу
@@ -103,7 +85,7 @@ Copy
 
 bash
 Copy
-curl -X POST "http://localhost:8000/api/v1/products" -H "Content-Type: application/json" -d '{"artikul": 211695539}'
+curl -X POST "http://localhost:8000/api/v1/products" -H "Content-Type: application/json" -d '{"artikul": 123456}'
 Ответ:
 
 json
@@ -143,11 +125,13 @@ wb_tg/
 ├── bot.py                 # Telegram бот
 ├── models.py              # Модели базы данных
 ├── services.py            # Логика работы с данными
-├── init_db.py             # Инициализация базы данных
 ├── requirements.txt       # Зависимости
+├── README.md              # Описание проекта
 ├── .env                   # Переменные окружения
 ├── Dockerfile             # Dockerfile для сборки контейнера
 └── docker-compose.yml     # Docker Compose файл
+
+
 
 
 Автор

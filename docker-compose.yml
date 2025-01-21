@@ -1,24 +1,46 @@
 version: "3.8"
+
 services:
-  wb_api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  db:
+    image: postgres:13
+    container_name: wb_db
+    environment:
+      POSTGRES_USER: mouser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: wb_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: wb_app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://mouser:mypassword@db:5432/wb_db
     ports:
       - "8000:8000"
     volumes:
       - .:/app
-    env_file:
-      - .env
-    restart: always
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
 
-  wb_bot:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+
+  app1:
+    build: .
+    container_name: wb_app1
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://mouser:mypassword@db:5432/wb_db
+      TELEGRAM_TOKEN: 7078892748:AAG-p8EXzipI6CwdojhAZRGk1jR-r_1ezGs
+    ports:
+      - "8001:8001"
     volumes:
       - .:/app
-    env_file:
-      - .env
-    restart: always
     command: python bot.py
+
+volumes:
+  postgres_data:

@@ -1,8 +1,9 @@
 fastapi
 uvicorn
-httpx
 sqlalchemy
+psycopg2-binary
+python-dotenv
 aiogram
 apscheduler
-python-dotenv
+httpx
 requests
